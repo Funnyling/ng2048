@@ -3,10 +3,10 @@ angular
   ])
   .service('GridService', function(TileModel) {
 
-    //grid
+    // Grid
     this.grid = [];
 
-    //tiles on the grid
+    // Tiles on the grid
     this.tiles = [];
     this.tiles.push(new TileModel({x: 1, y: 1}, 2));
     this.tiles.push(new TileModel({x: 1, y: 2}, 2));
@@ -15,8 +15,8 @@ angular
 
     // Get all the available tiles
     this.availableCells = function() {
-      var cells = [],
-        self = this;
+      var cells = [];
+      var self = this;
 
       this.forEach(function(x,y) {
         var foundTile = self.getCellAt({x:x, y:y});
@@ -28,6 +28,7 @@ angular
       return cells;
     };
 
+    // Build empty grid
     this.buildEmptyGameBoard = function() {
       var self = this;
       // Initialize our grid
@@ -42,6 +43,7 @@ angular
       });
     };
 
+    // Get random available cell
     this.randomAvailableCell = function() {
       var cells = this.availableCells();
       if (cells.length > 0) {
@@ -49,6 +51,7 @@ angular
       }
     };
 
+    // Randomly insert new title
     this.randomlyInsertNewTile = function() {
       var cell = this.randomAvailableCell();
       var tile = new TileModel(cell, 2);
@@ -101,6 +104,7 @@ angular
         cell.y >= 0 && cell.y < this.size;
     };
 
+    // Helper to convert position to coordinates
     this._positionToCoordinates = function(i) {
       var x = i % service.size;
       var y = (i - x) / service.size;
@@ -112,7 +116,7 @@ angular
 
     // Helper to convert coordinates to position
     this._coordinatesToPosition = function(pos) {
-      return (pos.y * service.size) + pos.x;
+      return (pos.y * service.size) + pos.x; //calculate index i = x + y * n(n- count elements in a single row)
     };
 
   })

@@ -51,7 +51,7 @@ $colors:  #EEE4DA, // 2
 
 #game {
   position: relative;
-  width: $width;
+  width: $width;  // The gameboard is a square
   height: $width; // The gameboard is a square
 
   .grid-container {
