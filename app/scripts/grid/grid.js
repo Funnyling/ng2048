@@ -3,13 +3,30 @@ angular
   ])
   .service('GridService', function(TileModel) {
 
+    //grid
     this.grid = [];
 
+    //tiles on the grid
     this.tiles = [];
     this.tiles.push(new TileModel({x: 1, y: 1}, 2));
     this.tiles.push(new TileModel({x: 1, y: 2}, 2));
 
     this.size = 4;
+
+    // Get all the available tiles
+    this.availableCells = function() {
+      var cells = [],
+        self = this;
+
+      this.forEach(function(x,y) {
+        var foundTile = self.getCellAt({x:x, y:y});
+        if (!foundTile) {
+          cells.push({x:x,y:y});
+        }
+      });
+
+      return cells;
+    };
 
     this.buildEmptyGameBoard = function() {
       var self = this;
@@ -23,6 +40,31 @@ angular
       this.forEach(function(x,y) {
         self.setCellAt({x:x,y:y}, null);
       });
+    };
+
+    this.randomAvailableCell = function() {
+      var cells = this.availableCells();
+      if (cells.length > 0) {
+        return cells[Math.floor(Math.random() * cells.length)];
+      }
+    };
+
+    this.randomlyInsertNewTile = function() {
+      var cell = this.randomAvailableCell();
+      var tile = new TileModel(cell, 2);
+      this.insertTile(tile);
+    };
+
+    // Add a tile to the tiles array
+    this.insertTile = function(tile) {
+      var pos = this._coordinatesToPosition(tile);
+      this.tiles[pos] = tile;
+    };
+
+    // Remove a tile from the tiles array
+    this.removeTile = function(pos) {
+      var pos = this._coordinatesToPosition(tile);
+      delete this.tiles[pos];
     };
 
     // Run a method for each element in the tiles array
@@ -60,8 +102,8 @@ angular
     };
 
     this._positionToCoordinates = function(i) {
-      var x = i % service.size,
-        y = (i - x) / service.size;
+      var x = i % service.size;
+      var y = (i - x) / service.size;
       return {
         x: x,
         y: y
