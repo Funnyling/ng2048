@@ -1,3 +1,15 @@
-/**
- * Created by ntishkevich on 7/13/2015.
- */
+angular
+  .module('Grdi', [
+  ])
+  .directive('grid', function () {
+
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      scope: {
+        ngModel: '='
+      },
+      templateUrl: 'scripts/grid/grid.html'
+    };
+
+  });

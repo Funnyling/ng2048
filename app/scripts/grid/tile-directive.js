@@ -1,3 +1,14 @@
-/**
- * Created by ntishkevich on 7/13/2015.
- */
+angular
+  .module('Grdi', [
+  ])
+  .directive('tile', function () {
+
+    return {
+      restrict: 'A',
+      scope: {
+        ngModel: '='
+      },
+      templateUrl: 'scripts/grid/tile.html'
+    };
+
+  });

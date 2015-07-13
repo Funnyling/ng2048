@@ -9,5 +9,7 @@ angular
 
     this.updateScore = function (newScore) {};
 
-    this.movesAvaliable = function () {};
+    this.movesAvaliable = function () {
+      return GridService.anyCellAvaliable() || GridService.tileMatchesAvaliable();
+    };
   });
