@@ -16,6 +16,12 @@ angular
 
     this.size = 4;
 
+    this.startingTileNumber = 2; // default starting tiles
+
+    this.setStartingTiles = function(num) {
+      this.startingTileNumber = num;
+    };
+
     // Get all the available tiles
     this.availableCells = function() {
       var cells = [];
@@ -44,6 +50,12 @@ angular
       this.forEach(function(x,y) {
         self.setCellAt({x:x,y:y}, null);
       });
+    };
+
+    this.buildStartingPosition = function() {
+      for (var x = 0; x < this.startingTileNumber; x++) {
+        this.randomlyInsertNewTile();
+      }
     };
 
     // Get random available cell

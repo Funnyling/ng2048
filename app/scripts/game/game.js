@@ -6,7 +6,7 @@ angular
 
     this.newGame = function () {
       GridService.buildEmptyGameBoard();
-      GridService.randomlyInsertNewTile();
+      GridService.buildStartingPosition();
       this.reinit();
     };
 
