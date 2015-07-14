@@ -1,5 +1,6 @@
+'use strict';
 angular
-  .module('Grdi', [
+  .module('Grid', [
   ])
   .directive('tile', function () {
 

@@ -32,12 +32,6 @@ $colors:  #EEE4DA, // 2
   @return $ret;
 }
 
-@for $i from 1 through length($colors) {
-  &.tile-#{power(2, $i)} .tile-inner {
-    background: nth($colors, $i)
-  }
-}
-
 .box {
   width:40px;
   height:40px;
@@ -67,27 +61,34 @@ $colors:  #EEE4DA, // 2
       // ...
     }
   }
+
   .tile-container {
     position: absolute;
     z-index: 2;
+  }
 
-    .tile {
-      width: $tile-size;        // tile width
-      height: $tile-size;       // tile height
-      // Dynamically create .position-#{x}-#{y} classes to mark
-      // where each tile will be placed
-      @for $x from 1 through $tile-count {
-        @for $y from 1 through $tile-count {
-          $zeroOffsetX: $x - 1;
-          $zeroOFfsetY: $y - 1;
-          $newX: ($tile-size) * ($zeroOffsetX) + ($tile-padding * $zeroOffsetX);
-          $newY: ($tile-size) * ($zeroOffsetY) + ($tile-padding * $zeroOffsetY);
+  .tile {
+    width: $tile-size;        // tile width
+    height: $tile-size;       // tile height
+    // Dynamically create .position-#{x}-#{y} classes to mark
+    // where each tile will be placed
+    @for $x from 1 through $tile-count {
+      @for $y from 1 through $tile-count {
+        $zeroOffsetX: $x - 1;
+        $zeroOffsetY: $y - 1;
+        $newX: ($tile-size) * ($zeroOffsetX) + ($tile-padding * $zeroOffsetX);
+        $newY: ($tile-size) * ($zeroOffsetY) + ($tile-padding * $zeroOffsetY);
 
-          &.position-#{$zeroOffsetX}-#{$zeroOffsetY} {
-            -webkit-transform: translate($newX, $newY);
-            transform: translate($newX, $newY);
-          }
+        &.position-#{$zeroOffsetX}-#{$zeroOffsetY} {
+          -webkit-transform: translate($newX, $newY);
+          transform: translate($newX, $newY);
         }
+      }
+    }
+
+    @for $i from 1 through length($colors) {
+      &.tile-#{power(2, $i)} .tile-inner {
+        background: nth($colors, $i)
       }
     }
   }

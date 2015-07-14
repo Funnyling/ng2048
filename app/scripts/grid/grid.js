@@ -1,10 +1,13 @@
+'use strict';
 angular
-  .module('Grdi', [
+  .module('Grid', [
   ])
   .service('GridService', function(TileModel) {
+    var service = this;
 
     // Grid
     this.grid = [];
+
 
     // Tiles on the grid
     this.tiles = [];
@@ -65,7 +68,7 @@ angular
     };
 
     // Remove a tile from the tiles array
-    this.removeTile = function(pos) {
+    this.removeTile = function(tile) {
       var pos = this._coordinatesToPosition(tile);
       delete this.tiles[pos];
     };
