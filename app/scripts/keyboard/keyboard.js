@@ -1,13 +1,18 @@
-'use strict';
-angular
-  .module('Keyboard', [
-  ])
-  .service('KeyboardService', function($document) {
+(function (angular) {
+  'use strict';
 
-    var UP = 'up';
-    var DOWN = 'down';
-    var LEFT = 'left';
-    var RIGHT = 'right';
+  angular
+    .module('Keyboard', [])
+    .service('keyboardService', keyboardService);
+
+  keyboardService.$inject = ['$document'];
+
+  function keyboardService($document) {
+
+    var UP = 'up',
+      DOWN = 'down',
+      LEFT = 'left',
+      RIGHT = 'right';
 
     var keyMap = {
       37: LEFT,
@@ -16,10 +21,10 @@ angular
       40: RIGHT
     };
 
-    this.init = function() {
+    this.init = function () {
       var self = this;
       this.keyEventHandlers = [];
-      $document.bind('keydown', function(event) {
+      $document.bind('keydown', function (event) {
         var key = keyMap[event.which];
         if (key) {
           event.preventDefault();
@@ -28,25 +33,25 @@ angular
       });
     };
 
+    this.on = function (cb) {
+      this.keyEventHandlers.push(cb);
+    };
+
     // Helper function to handle keyboard events and process them with custom keyEventhandlers
-    this._handleKeyEvent = function(key, event) {
+    this._handleKeyEvent = function (key, event) {
       var callbacks = this.keyEventHandlers;
       if (!callbacks) {
         return;
       }
 
       event.preventDefault();
+
       if (callbacks) {
-        for (var i = 0; i < callbacks.length; i++) {
+        for (var i = 0, length = callbacks.length; i < length; i++) {
           var cb = callbacks[i];
           cb(key, event);
         }
       }
     };
-
-    this.keyEventHandlers = [];
-
-    this.on = function(cb) {
-      this.keyEventHandlers.push(cb);
-    };
-  });
+  }
+})(angular);

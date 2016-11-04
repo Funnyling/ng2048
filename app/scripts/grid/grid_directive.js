@@ -1,9 +1,11 @@
-'use strict';
-angular
-  .module('Grid', [
-  ])
-  .directive('grid', function () {
+(function (angular) {
+  'use strict';
 
+  angular
+    .module('Grid')
+    .directive('grid', gridDirective);
+
+  function gridDirective() {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -12,5 +14,6 @@ angular
       },
       templateUrl: 'scripts/grid/grid.html'
     };
+  }
 
-  });
+})(angular);

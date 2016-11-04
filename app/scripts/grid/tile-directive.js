@@ -1,9 +1,11 @@
-'use strict';
-angular
-  .module('Grid', [
-  ])
-  .directive('tile', function () {
+(function (angular) {
+  'use strict';
 
+  angular
+    .module('Grid')
+    .directive('tile', tileDirective);
+
+  function tileDirective() {
     return {
       restrict: 'A',
       scope: {
@@ -11,5 +13,6 @@ angular
       },
       templateUrl: 'scripts/grid/tile.html'
     };
+  }
+})(angular);
 
-  });

@@ -1,25 +1,41 @@
-'use strict';
+(function (angular) {
+  'use strict';
 
-/**
- * @ngdoc overview
- * @name twentyfourtyeightApp
- * @description
- * # twentyfourtyeightApp
- *
- * Main module of the application.
- */
-angular
-  .module('twentyfourtyeightApp', [
-    'Game',
-    'Grid',
-    'Keyboard'
-  ])
-  .controller('GameController', function (GameManager, KeyboardService) {
-    this.game = GameManager;
+  /**
+   * @ngdoc overview
+   * @name twentyFortyEightApp
+   * @description
+   * # twentyFortyEightApp
+   *
+   * Main module of the application.
+   */
+  angular
+    .module('twentyFortyEightApp', [
+      'Game',
+      'Grid',
+      'Keyboard',
+      'ngAnimate',
+      'ngCookies'
+    ])
+    .config(twentyFortyEightAppConfig)
+    .controller('GameController', GameController);
 
-    // Create a new game
+  twentyFortyEightAppConfig.$injec = ['GridServiceProvider'];
+
+  GameController.$inject = [
+    'gameManager',
+    'keyboardService'
+  ];
+
+  function twentyFortyEightAppConfig(GridServiceProvider) {
+    GridServiceProvider.setSize(4);
+  }
+
+  function GameController(gameManager, keyboardService) {
+    this.game = gameManager;
+
     this.newGame = function () {
-      KeyboardService.init();
+      keyboardService.init();
       this.game.newGame();
       this.startGame();
     };
@@ -27,10 +43,14 @@ angular
     this.startGame = function () {
       var self = this;
 
-      KeyboardService.on(function(key) {
+      keyboardService.on(function (key) {
         self.game.move(key);
       });
     };
 
     this.newGame();
-  });
+  }
+})(angular);
+
+
+
