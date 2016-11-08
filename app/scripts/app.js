@@ -20,15 +20,15 @@
     .config(twentyFortyEightAppConfig)
     .controller('GameController', GameController);
 
-  twentyFortyEightAppConfig.$injec = ['GridServiceProvider'];
+  twentyFortyEightAppConfig.$injec = ['gridServiceProvider'];
 
   GameController.$inject = [
     'gameManager',
     'keyboardService'
   ];
 
-  function twentyFortyEightAppConfig(GridServiceProvider) {
-    GridServiceProvider.setSize(4);
+  function twentyFortyEightAppConfig(gridServiceProvider) {
+    gridServiceProvider.setSize(4);
   }
 
   function GameController(gameManager, keyboardService) {

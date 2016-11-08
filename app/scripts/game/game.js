@@ -10,19 +10,19 @@
   gameManager.$inject = [
     '$q',
     '$timeout',
-    'GridService',
+    'gridService',
     '$cookieStore'
   ];
 
-  function gameManager($q, $timeout, GridService, $cookieStore) {
+  function gameManager($q, $timeout, gridService, $cookieStore) {
 
     this.getHighScore = function () {
       return parseInt($cookieStore.get('highScore')) || 0;
     };
 
-    this.grid = GridService.grid;
-    this.tiles = GridService.tiles;
-    this.gameSize = GridService.getSize();
+    this.grid = gridService.grid;
+    this.tiles = gridService.tiles;
+    this.gameSize = gridService.getSize();
 
     this.winningValue = 2048;
 
@@ -36,8 +36,8 @@
     this.reinit();
 
     this.newGame = function () {
-      GridService.buildEmptyGameBoard();
-      GridService.buildStartingPosition();
+      gridService.buildEmptyGameBoard();
+      gridService.buildStartingPosition();
       this.reinit();
     };
 
@@ -64,20 +64,20 @@
           return false;
         }
 
-        var positions = GridService.traversalDirections(key);
+        var positions = gridService.traversalDirections(key);
         var hasMoved = false;
         var hasWon = false;
 
         // Update Grid
-        GridService.prepareTiles();
+        gridService.prepareTiles();
 
         positions.x.forEach(function (x) {
           positions.y.forEach(function (y) {
             var originalPosition = {x: x,y: y};
-            var tile = GridService.getCellAt(originalPosition);
+            var tile = gridService.getCellAt(originalPosition);
 
             if (tile) {
-              var cell = GridService.calculateNextPosition(tile, key),
+              var cell = gridService.calculateNextPosition(tile, key),
                 next = cell.next;
 
               if (next && next.value === tile.value && !next.merged) {
@@ -85,13 +85,13 @@
                 // MERGE
                 var newValue = tile.value * 2;
 
-                var merged = GridService.newTile(tile, newValue);
+                var merged = gridService.newTile(tile, newValue);
                 merged.merged = [tile, cell.next];
 
-                GridService.insertTile(merged);
-                GridService.removeTile(tile);
+                gridService.insertTile(merged);
+                gridService.removeTile(tile);
 
-                GridService.moveTile(merged, next);
+                gridService.moveTile(merged, next);
 
                 self.updateScore(self.currentScore + cell.next.value);
 
@@ -100,10 +100,10 @@
                 }
                 hasMoved = true; // we moved with a merge
               } else {
-                GridService.moveTile(tile, cell.newPosition);
+                gridService.moveTile(tile, cell.newPosition);
               }
 
-              if (!GridService.samePositions(originalPosition,cell.newPosition)) {
+              if (!gridService.samePositions(originalPosition,cell.newPosition)) {
                 hasMoved = true;
               }
             }
@@ -115,7 +115,7 @@
         }
 
         if (hasMoved) {
-          GridService.randomlyInsertNewTile();
+          gridService.randomlyInsertNewTile();
 
           if (self.win || !self.movesAvailable()) {
             self.gameOver = true;
@@ -127,7 +127,7 @@
     };
 
     this.movesAvailable = function () {
-      return GridService.anyCellsAvailable() || GridService.tileMatchesAvailable();
+      return gridService.anyCellsAvailable() || gridService.tileMatchesAvailable();
     };
 
     this.updateScore = function (newScore) {
